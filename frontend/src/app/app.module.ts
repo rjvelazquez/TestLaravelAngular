@@ -28,10 +28,11 @@ import { StudentCreateComponent } from './students/student-create/student-create
       StudentCreateComponent,      
       StudentListComponent,
       StudentEditComponent,
+      LoginComponent,            // Importa el componente de inicio de sesión
+
     ], 
     imports: [
       BrowserModule,
-      LoginComponent,            // Importa el componente de inicio de sesión
       DashboardComponent,       // Importa el componente de tablero
       CourseListComponent,      // Importa el componente de lista de cursos
       CourseEditComponent,      // Importa el componente de edición de cursos

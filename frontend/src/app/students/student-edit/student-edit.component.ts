@@ -11,7 +11,7 @@ import { environment } from '../../../../env'; // Importa el entorno
 })
 export class StudentEditComponent implements OnInit {
   studentForm: FormGroup;
-  studentId: number;
+  studentId: number = 0;  // O el valor que consideres apropiado
 
   constructor(
     private fb: FormBuilder,

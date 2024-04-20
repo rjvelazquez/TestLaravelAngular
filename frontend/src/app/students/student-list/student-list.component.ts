@@ -8,8 +8,8 @@ import { environment } from '../../../../env';  // Importa el entorno
   styleUrls: ['./student-list.component.css']
 })
 export class StudentListComponent implements OnInit {
-  students = [];
-
+  students: any[] = [];  // Para permitir cualquier tipo de objeto en el array
+  
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
