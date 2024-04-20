@@ -3,10 +3,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { CourseListComponent } from './courses/course-list.component';
-import { CourseEditComponent } from './courses/course-edit.component';
-import { StudentListComponent } from './students/student-list.component';
-import { StudentEditComponent } from './students/student-edit.component';
+import { CourseListComponent } from './courses/course-list/course-list.component';
+import { CourseEditComponent } from './courses/course-edit/course-edit.component';
+import { StudentListComponent } from './students/student-list/student-list.component';
+import { StudentEditComponent } from './students/student-edit/student-edit.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
