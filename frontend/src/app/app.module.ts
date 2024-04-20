@@ -25,7 +25,9 @@ import { StudentCreateComponent } from './students/student-create/student-create
       AdminComponent,
       StudentsComponent,
       CoursesComponent,
-      StudentCreateComponent,
+      StudentCreateComponent,      
+      StudentListComponent,
+      StudentEditComponent,
     ], 
     imports: [
       BrowserModule,
@@ -33,8 +35,6 @@ import { StudentCreateComponent } from './students/student-create/student-create
       DashboardComponent,       // Importa el componente de tablero
       CourseListComponent,      // Importa el componente de lista de cursos
       CourseEditComponent,      // Importa el componente de edición de cursos
-      StudentListComponent,     // Importa el componente de lista de estudiantes
-      StudentEditComponent,     // Importa el componente de edición de estudiantes
       AppRoutingModule,          // Importa el módulo de enrutamiento
       ReactiveFormsModule,        // Importa el módulo de formularios reactivos
       HttpClientModule,          // Importa el módulo de HTTP
