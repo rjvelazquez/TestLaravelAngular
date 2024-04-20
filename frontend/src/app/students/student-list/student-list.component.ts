@@ -1,12 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../env';  // Importa el entorno
 
 @Component({
   selector: 'app-student-list',
-  standalone: true,
-  imports: [],
   templateUrl: './student-list.component.html',
-  styleUrl: './student-list.component.css'
+  styleUrls: ['./student-list.component.css']
 })
-export class StudentListComponent {
+export class StudentListComponent implements OnInit {
+  students = [];
 
+  constructor(private http: HttpClient) {}
+
+  ngOnInit() {
+    this.loadStudents();
+  }
+
+
+  loadStudents() {
+    const url = `${environment.apiUrl}/students`;
+    this.http.get(url)
+      .subscribe(
+        data => {
+          this.students = data as any[];
+          console.log('Estudiantes cargados:', this.students);
+        },
+        error => {
+          console.error('Error al cargar estudiantes:', error);
+        }
+      );
+  }
 }

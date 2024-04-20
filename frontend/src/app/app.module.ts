@@ -10,10 +10,22 @@ import { CourseListComponent } from './courses/course-list/course-list.component
 import { CourseEditComponent } from './courses/course-edit/course-edit.component';
 import { StudentListComponent } from './students/student-list/student-list.component';
 import { StudentEditComponent } from './students/student-edit/student-edit.component';
+import { AdminComponent } from './admin/admin.component';
+import { StudentsComponent } from './students/students.component';
+import { CoursesComponent } from './courses/courses.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { StudentCreateComponent } from './students/student-create/student-create.component'; // Importa el módulo de HTTP
+
+
 
 @NgModule({
     declarations: [
       AppComponent,
+      AdminComponent,
+      StudentsComponent,
+      CoursesComponent,
+      StudentCreateComponent,
     ], 
     imports: [
       BrowserModule,
@@ -23,9 +35,14 @@ import { StudentEditComponent } from './students/student-edit/student-edit.compo
       CourseEditComponent,      // Importa el componente de edición de cursos
       StudentListComponent,     // Importa el componente de lista de estudiantes
       StudentEditComponent,     // Importa el componente de edición de estudiantes
-      AppRoutingModule          // Importa el módulo de enrutamiento
+      AppRoutingModule,          // Importa el módulo de enrutamiento
+      ReactiveFormsModule,        // Importa el módulo de formularios reactivos
+      HttpClientModule,          // Importa el módulo de HTTP
     ],
     providers: [],
     bootstrap: [AppComponent]   // El componente raíz
   })
   export class AppModule { }
+
+
+
