@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Administrador;
 
 class AdministradorController extends Controller
 {
@@ -27,8 +28,23 @@ class AdministradorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'nombre' => 'required|max:255',
+            'apellido' => 'required|max:255',
+            'email' => 'required|email|unique:administradores,email',
+            'password' => 'required|min:6',
+        ]);
+
+        $administrador = new Administrador();
+        $administrador->nombre = $validatedData['nombre'];
+        $administrador->apellido = $validatedData['apellido'];
+        $administrador->email = $validatedData['email'];
+        $administrador->password = bcrypt($validatedData['password']);
+        $administrador->save();
+
+        return response()->json(['message' => 'Administrador creado con éxito', 'data' => $administrador], 201);
     }
+
 
     /**
      * Display the specified resource.

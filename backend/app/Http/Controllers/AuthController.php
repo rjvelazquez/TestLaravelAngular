@@ -1,9 +1,11 @@
 <?php
+namespace App\Http\Controllers;
 
-// app/Http/Controllers/AuthController.php
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class AuthController extends Controller
 {
@@ -14,21 +16,33 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return response()->json(['message' => 'Login exitoso'], 200);
+        try {
+            if (! $token = JWTAuth::attempt($credentials)) {
+                return response()->json(['error' => 'Credenciales inválidas'], 401);
+            }
+        } catch (JWTException $e) {
+            return response()->json(['error' => 'could_not_create_token'], 500);
         }
 
-        return response()->json(['error' => 'Credenciales inválidas'], 401);
+        return response()->json(compact('token'));
     }
 
     public function logout(Request $request)
     {
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+        JWTAuth::invalidate(JWTAuth::getToken());
 
         return response()->json(['message' => 'Logout exitoso'], 200);
     }
+
+    public function user(Request $request)
+    {
+        return response()->json(['user' => Auth::user()], 200);
+    }
+
+    public function admin(Request $request)
+    {
+        return response()->json(['administradores' => Auth::user()->administradores], 200);
+    }
+
+    
 }

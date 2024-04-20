@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('administradores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre', 100);
-            $table->string('apellido', 100)->nullable();
-            $table->string('email')->unique();
+        Schema::create('oauth_personal_access_clients', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('client_id');
             $table->timestamps();
         });
-        
     }
 
     /**
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('administradores');
+        Schema::dropIfExists('oauth_personal_access_clients');
     }
 };

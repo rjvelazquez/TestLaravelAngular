@@ -40,8 +40,17 @@ class Kernel extends HttpKernel
 
         ],
         'api' => [
-            'throttle:60,1',
+            'throttle:60,1',  
             SubstituteBindings::class,
+            
+            EncryptCookies::class,
+            AddQueuedCookiesToResponse::class,
+            StartSession::class,
+            ShareErrorsFromSession::class,
+            VerifyCsrfToken::class,
+            SubstituteBindings::class,
+            EnsureFrontendRequestsAreStateful::class,
+
         ],
     ];
 
@@ -51,5 +60,6 @@ class Kernel extends HttpKernel
         'throttle' => ThrottleRequests::class,
         'bindings' => SubstituteBindings::class,
         'frontend' => EnsureFrontendRequestsAreStateful::class,
+        
     ];
 }
