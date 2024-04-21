@@ -26,6 +26,16 @@ class EstudianteController extends Controller
         }
     }
 
+    public function index()
+    {
+        try {
+            $estudiantes = Estudiante::all();
+            return EstudianteResource::collection($estudiantes);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al listar los estudiantes', 'message' => $e->getMessage()], 500);
+        }
+    }
+
     public function show(string $id)
     {
         try {

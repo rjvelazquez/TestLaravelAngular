@@ -7,10 +7,12 @@ import { CourseListComponent } from './courses/course-list/course-list.component
 import { CourseEditComponent } from './courses/course-edit/course-edit.component';
 import { StudentListComponent } from './students/student-list/student-list.component';
 import { StudentEditComponent } from './students/student-edit/student-edit.component';
+import { LogoutComponent } from './logout/logout.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'courses', component: CourseListComponent },
   { path: 'courses/edit/:id', component: CourseEditComponent },

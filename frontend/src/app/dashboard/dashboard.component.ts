@@ -1,12 +1,27 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { environment } from '../../../env';
+
 
 @Component({
   selector: 'app-dashboard',
-  standalone: true,
-  imports: [],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
+  username: string;
 
+  constructor(private userService: UserService) {
+    this.username = '';
+  }
+
+  ngOnInit() {
+    this.userService.getUsername().subscribe(username => {
+      this.username = username;
+    });
+  }
+
+  getWelcomeMessage() {
+    return `Welcome, ${this.username}!`;
+  }
 }

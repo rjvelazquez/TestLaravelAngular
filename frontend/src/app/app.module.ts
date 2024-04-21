@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module'; // Asegúrate de que la ruta al módulo de rutas es correcta
+import { AppRoutingModule } from './app-routing.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpBackend, HttpXhrBackend } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
-// Importa los componentes
+
+// Import components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -14,36 +18,33 @@ import { AdminComponent } from './admin/admin.component';
 import { StudentsComponent } from './students/students.component';
 import { CoursesComponent } from './courses/courses.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { StudentCreateComponent } from './students/student-create/student-create.component'; // Importa el módulo de HTTP
-
-
+import { StudentCreateComponent } from './students/student-create/student-create.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
-    declarations: [
-      AppComponent,
-      AdminComponent,
-      StudentsComponent,
-      CoursesComponent,
-      StudentCreateComponent,      
-      StudentListComponent,
-      StudentEditComponent,
-      LoginComponent,            // Importa el componente de inicio de sesión
-
-    ], 
-    imports: [
-      BrowserModule,
-      DashboardComponent,       // Importa el componente de tablero
-      CourseListComponent,      // Importa el componente de lista de cursos
-      CourseEditComponent,      // Importa el componente de edición de cursos
-      AppRoutingModule,          // Importa el módulo de enrutamiento
-      ReactiveFormsModule,        // Importa el módulo de formularios reactivos
-      HttpClientModule,          // Importa el módulo de HTTP
-    ],
-    providers: [],
-    bootstrap: [AppComponent]   // El componente raíz
-  })
-  export class AppModule { }
-
-
-
+  declarations: [
+    AppComponent,
+    AdminComponent,
+    StudentsComponent,
+    CoursesComponent,
+    StudentCreateComponent,      
+    StudentListComponent,
+    StudentEditComponent,
+    LoginComponent,
+    LogoutComponent,            
+  ], 
+  imports: [
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    AppRoutingModule,          // Import routing module
+    ReactiveFormsModule,        // Import reactive forms module
+    HttpClientModule,          // Import HTTP client module
+  ],
+  providers: [
+    HttpClient,
+    { provide: HttpClient, deps: [HttpBackend, HttpXhrBackend] },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    
+  ],
+  bootstrap: [AppComponent]   // Root component
+})
+export class AppModule { }

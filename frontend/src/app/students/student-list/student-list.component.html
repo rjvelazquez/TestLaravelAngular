@@ -1,1 +1,80 @@
-<p>student-list works!</p>
+<div class="text-center"><h1>Estudiantes</h1></div>
+
+
+    <div class="justify-content-end m-3 px-5 w-100 d-flex">
+
+        <!-- Botón para abrir el modal -->
+        <button type="button" class="btn btn-sm btn-primary" (click)="createStudent()">Agregar estudiante</button>
+
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="fromCreateStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fromCreateStudentLabel">Agregar estudiante</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-student-create (studentCreated)="loadStudents()"></app-student-create>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+        <table class="table table-responsive table-container text-center">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Cédula</th>
+                    <th>Email</th>
+                    <th>Cursos asignados
+                        <table class="border border-0">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Horario</th>
+                                    <th>Tipo</th>
+                                    <th>Fecha de inicio</th>
+                                    <th>Fecha de fin</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let student of students">
+                    <td>{{ student.nombre }}</td>
+                    <td>{{ student.apellido }}</td>
+                    <td>{{ student.edad }}</td>
+                    <td>{{ student.cedula }}</td>
+                    <td>{{ student.email }}</td>
+                    <td>
+                        <table class="border border-0">
+                            <tbody class="border border-0">
+                                <tr *ngFor="let course of student.courses">
+                                    <td>{{ course.nombre }}</td>
+                                    <td>{{ course.horario }}</td>
+                                    <td>{{ course.tipo }}</td>
+                                    <td>{{ course.fecha_inicio }}</td>
+                                    <td>{{ course.fecha_fin }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+                        <button class="btn btn-sm btn-warning m-1" (click)="editStudent(student.id)">Editar</button>
+                        <button class="btn btn-sm btn-danger m-1" (click)="deleteStudent(student.id)">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
