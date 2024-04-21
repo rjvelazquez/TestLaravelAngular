@@ -8,19 +8,20 @@ import { CourseEditComponent } from './courses/course-edit/course-edit.component
 import { StudentListComponent } from './students/student-list/student-list.component';
 import { StudentEditComponent } from './students/student-edit/student-edit.component';
 import { LogoutComponent } from './logout/logout.component';
-
+import { AuthGuard } from './auth.guard'; // Import the missing AuthGuard class
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'courses', component: CourseListComponent },
-  { path: 'courses/edit/:id', component: CourseEditComponent },
-  { path: 'courses/new', component: CourseEditComponent },
-  { path: 'students', component: StudentListComponent },
-  { path: 'students/edit/:id', component: StudentEditComponent },
-  { path: 'students/new', component: StudentEditComponent },
-  { path: '**', redirectTo: '/dashboard' }
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'courses', component: CourseListComponent, canActivate: [AuthGuard] }, // Use the imported AuthGuard class
+  { path: 'courses/edit/:id', component: CourseEditComponent, canActivate: [AuthGuard]},
+  { path: 'courses/new', component: CourseEditComponent, canActivate: [AuthGuard]},
+  { path: 'students', component: StudentListComponent, canActivate: [AuthGuard]},
+  { path: 'students/edit/:id', component: StudentEditComponent, canActivate: [AuthGuard]},
+  { path: 'students/new', component: StudentEditComponent, canActivate: [AuthGuard]},
+  { path: '**', redirectTo: '/dashboard' },
+
 ];
 
 @NgModule({
