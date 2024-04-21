@@ -2,6 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../user.service'; // Import the user service to handle user data
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,7 +16,8 @@ export class LoginComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(8)]],
   });
 
-  constructor(private fb: FormBuilder, private userService: UserService) { }
+  constructor(private fb: FormBuilder, private userService: UserService, private router: Router) { } // Inject the Router module into the constructor
+
 
   ngOnInit(): void {
   }
@@ -38,8 +40,8 @@ export class LoginComponent implements OnInit {
               // Manejar respuesta exitosa
               alert('Inicio de sesión exitoso');
               // Redireccionar al dashboard
-              window.location.href = '/dashboard';
-              console.log('Inicio de sesión exitoso:', response);
+              this.router.navigate(['/dashboard']);
+               console.log('Inicio de sesión exitoso:', response);
             },
             error => {
               // Manejar errores de autenticación

@@ -13,12 +13,18 @@ export class StudentListComponent implements OnInit {
   private apiUrl = `${environment.apiUrl}`;  // Replace with your API URL
 
   students: any[] = [];  // Para permitir cualquier tipo de objeto en el array
+  selectedStudentId: number = 0;  // Initialize the 'selectedStudentId' property
   
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
     this.loadStudents();
   }
+
+  onStudentCreated() {
+    this.loadStudents();
+  }
+
   loadStudents() {
     const token = localStorage.getItem('authToken'); 
     const headers = { 'Authorization': 'Bearer ' + token };
@@ -41,6 +47,12 @@ export class StudentListComponent implements OnInit {
         },
         error => {
           console.error('Error al cargar estudiantes:', error);
+          // Si el servidor devuelve un error 401 Unauthorized, redirige al usuario a la página de inicio de sesión
+          if (error.status === 401) {
+            alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
+            localStorage.removeItem('authToken');
+            location.reload();
+          }
         }
       );
   }
@@ -68,8 +80,11 @@ export class StudentListComponent implements OnInit {
     $('#fromCreateStudent').modal('show');    
   }
   
+
   editStudent(id: number) {
-    // Implementa la lógica para editar el estudiante con el ID dado
+    this.selectedStudentId = id;
+    $('#fromEditStudent').modal('show');   
+    console.log('Editar estudiante:', id); 
   }
   
   deleteStudent(id: number) {

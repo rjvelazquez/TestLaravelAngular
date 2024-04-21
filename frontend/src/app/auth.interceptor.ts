@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -9,32 +9,46 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Get the auth token from the service.
-    const authToken = this.getAuthenticationToken();
+    const token = this.getAuthenticationToken();
 
-    // Clone the request and replace the original headers with
-    // cloned headers, updated with the authorization.
-    const authReq = req.clone({
-      headers: req.headers.set('Authorization', `Bearer ${authToken}`)
-    });
+    if (token) {
+      const expirationDate = this.getTokenExpirationDate();
+      if (expirationDate && new Date() > new Date(expirationDate)) {
+        // Si el token ha expirado, redirige al usuario a la página de inicio de sesión
+        this.router.navigate(['/login']);
+        return throwError('Token has expired');
+      }
 
-    // send cloned request with header to the next handler.
-      return next.handle(req).pipe(
-        catchError((error: HttpErrorResponse) => {
-          if (error.status === 401) {  // Si el status es 401 (no autorizado), la sesión ha expirado
-            this.router.navigate(['/login']);  // Redirige al usuario al login
-          }
-          return throwError(error);
-        })
-      );
+      req = req.clone({
+        setHeaders: {
+          Authorization: `Bearer ${token}`
+        }
+      });
     }
+
+    return next.handle(req).pipe(
+      catchError(err => {
+        if (err.status === 401) {
+          // Si el servidor devuelve un error 401 Unauthorized, redirige al usuario a la página de inicio de sesión
+          this.router.navigate(['/login']);
+        }
+
+        return throwError(err);
+      })
+    );
+  }
 
   getAuthenticationToken() {
     if (typeof window !== 'undefined') {
-      // We are in the browser, it is safe to access localStorage
       return localStorage.getItem('authToken');
     }
-    // We are on the server, return a default value
+    return null;
+  }
+
+  getTokenExpirationDate() {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('tokenExpirationDate');
+    }
     return null;
   }
 }

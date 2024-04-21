@@ -1,1 +1,34 @@
-<p>student-edit works!</p>
+<div class="container">
+    <h2>Editar Estudiante</h2>
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" formControlName="nombre" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" formControlName="apellido" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="edad">Edad</label>
+        <input type="number" id="edad" formControlName="edad" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="cedula">Cédula</label>
+        <input type="text" id="cedula" formControlName="cedula" class="form-control">
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Cursos</label>
+        <div formArrayName="curso" *ngFor="let curso of cursos; let i = index">
+          <label [for]="'curso' + i">
+          <input type="checkbox" [id]="'curso' + i" [value]="curso.id" (change)="onCursoChange(curso.id, $event)" [checked]="cursoArray.controls[i].value">
+          {{ curso.nombre }}</label>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Actualizar Estudiante</button>
+    </form>
+  </div>

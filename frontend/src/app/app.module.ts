@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClientModule, HttpClient, HttpBackend, HttpXhrBackend } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HttpBackend, HttpXhrBackend, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
 
 
@@ -34,7 +33,7 @@ import { LogoutComponent } from './logout/logout.component';
     LogoutComponent,            
   ], 
   imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    BrowserModule,
     AppRoutingModule,          // Import routing module
     ReactiveFormsModule,        // Import reactive forms module
     HttpClientModule,          // Import HTTP client module
