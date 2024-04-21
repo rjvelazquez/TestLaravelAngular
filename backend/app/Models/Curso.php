@@ -7,8 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Curso extends Model
 {
+    use HasFactory;
+
+    protected $fillable = [
+        'nombre',
+        'horario',
+        'fecha_inicio',
+        'fecha_fin',
+        'tipo',
+    ];
+
     public function estudiantes()
     {
-        return $this->belongsToMany(Estudiante::class, 'curso_estudiante');
+        return $this->belongsToMany(Estudiante::class);
     }
 }

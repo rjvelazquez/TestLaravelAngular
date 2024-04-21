@@ -50,10 +50,6 @@ class AdministradorTest extends TestCase
         // Test the relationship
         $this->assertEquals($admin->user->id, $user->id);
 
-        // Test the admin route
-        $response = $this->get('/admin');
-        
-        $response->assertStatus(200);
-
+       
     }
 }

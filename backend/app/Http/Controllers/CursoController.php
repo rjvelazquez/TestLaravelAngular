@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Curso;
 use Illuminate\Http\Request;
+use App\Http\Resources\CursoResource;
 
 class CursoController extends Controller
 {
@@ -12,12 +13,20 @@ class CursoController extends Controller
         $cursos = Curso::all();  // Listar todos los cursos
         return response()->json($cursos);
     }
+    
+    
+    public function show(string $id)
+    {
+        $curso = Curso::with('estudiantes')->findOrFail($id);
+        return new CursoResource($curso);
+    }
 
-    public function show($id)
+    /*public function show($id)
     {
         $curso = Curso::findOrFail($id);  // Obtener curso por ID
         return response()->json($curso);
-    }
+    }*/
+
 
     public function store(Request $request)
     {
