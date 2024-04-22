@@ -1,6 +1,5 @@
 <div class="container">
-    <h2>Editar Curso</h2>
-    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="courseForm" (ngSubmit)="onSubmit()" class="mt-4">
         <div class="form-group">
             <label for="nombre">Nombre del Curso:</label>
             <input type="text" id="nombre" formControlName="nombre" required class="form-control">
@@ -25,7 +24,7 @@
             </select>
         </div>
         <div class="justify-content-end d-flex">
-            <button type="submit" class="btn btn-primary">Actualizar Curso</button>
+            <button type="submit" class="btn btn-primary float-end mx-2">Crear Curso</button>
         </div>
     </form>
 </div>

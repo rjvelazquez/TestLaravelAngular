@@ -1,4 +1,6 @@
-<div class="text-center"><h1>Estudiantes</h1></div>
+<div class="text-center">
+    <h1>Estudiantes</h1>
+</div>
 
 
     <div class="justify-content-end m-3 px-5 w-100 d-flex">
@@ -8,39 +10,7 @@
 
     </div>
 
-    <!-- Modal Create -->
-    <div class="modal fade" id="fromCreateStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="fromCreateStudentLabel">Agregar estudiante</h5>
-                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <app-student-create (studentCreated)="loadStudents()"></app-student-create>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Modal Edit -->
-        <div class="modal fade" id="fromEditStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="fromEditStudentLabel">Editar estudiante</h5>
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                    <app-student-edit [studentId]="selectedStudentId" (studentUpdated)="loadStudents()"></app-student-edit>                    </div>
-                </div>
-            </div>
-        </div>
-    <div>
-
+    
         <table class="table table-responsive text-center">
             <thead>
                 <tr>
@@ -92,4 +62,37 @@
                 </tr>
             </tbody>
         </table>
+
+        
+    <!-- Modal Create -->
+    <div class="modal fade" id="fromCreateStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="fromCreateStudentLabel">Agregar estudiante</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <app-student-create (studentCreated)="loadStudents()"></app-student-create>
+                </div>
+            </div>
+        </div>
     </div>
+    <!-- Modal Edit -->
+        <div class="modal fade" id="fromEditStudent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="fromEditStudentLabel">Editar estudiante</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <app-student-edit *ngIf="showEditStudent" [studentId]="selectedStudentId" (studentUpdated)="loadStudents()"></app-student-edit>  
+                        </div>
+                    </div>
+                </div>
+        </div>

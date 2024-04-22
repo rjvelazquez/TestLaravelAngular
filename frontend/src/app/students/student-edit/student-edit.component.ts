@@ -1,34 +1,34 @@
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute, Router } from '@angular/router'; // Add this import
-import { environment } from '../../../../env'; // Importa el entorno
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-
+import { Component, OnInit, OnDestroy, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, FormControl, AbstractControl } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { environment } from '../../../../env';  // Importa el entorno
 
+interface Course {
+  id: number;
+  nombre: string;
+}
 
-  interface Course {
-    id: number;
-    nombre: string;
-  }
+interface AssignedCoursesResponse {
+  data: Course[];
+}
 
-  interface ApiResponse {
-    data: {
-      id: number;
-      nombre: string;
-      apellido: string;
-      edad: number;
-      cedula: string;
-      email: string;
-      created_at: string;
-      updated_at: string;
-    };
-  }
+interface Student {
+  id: number;
+  nombre: string;
+  apellido: string;
+  edad: number;
+  cedula: string;
+  email: string;
+  created_at: string;
+  updated_at: string;
+  cursos: Course[]; // Add this line
+}
 
-  interface StudentResponse {
-    data: {
-      id: number;  // ID del estudiante, necesario para asignar cursos
-    };
-  }
+interface ApiResponse {
+  data: Student; // Update this line
+}
 
 declare var $: any;  // Declara la variable jQuery
 
@@ -38,44 +38,47 @@ declare var $: any;  // Declara la variable jQuery
   templateUrl: './student-edit.component.html',
   styleUrls: ['./student-edit.component.css']
 })
-export class StudentEditComponent implements OnInit {
+export class StudentEditComponent implements OnInit, OnDestroy {
+  @Input() studentId!: number;
   @Output() studentUpdated = new EventEmitter<void>();
-  @Input() studentId: number = 0; // Assign a default value to studentId
-
-  private apiUrl = `${environment.apiUrl}`;  
+  private apiUrl = `${environment.apiUrl}`;
   studentForm: FormGroup;
   cursos: Course[] = [];
-  cursoArray: FormArray;  // Declare cursoArray
-  
-  
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute) { // Inject ActivatedRoute
+  cursoArray: FormArray;
+  routeSub!: Subscription; // Usando el operador de asignación definitiva
+
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router, private route: ActivatedRoute) {
     this.studentForm = this.fb.group({
       nombre: ['', Validators.required],
       apellido: [''],
       edad: ['', [Validators.required, Validators.min(1)]],
       cedula: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      curso: this.fb.array([]),  // Change to FormArray
+      curso: this.fb.array([])
     });
-
-    this.cursoArray = this.studentForm.get('curso') as FormArray;  // Initialize cursoArray
+    this.cursoArray = this.studentForm.get('curso') as FormArray;
   }
 
   
-
   ngOnInit() {
     console.log('ID del estudiante:', this.studentId);
-    this.studentId = +this.route.snapshot.params['id'];  // Use route instead of router
-    this.getCursos();  // Get the courses when the component is initialized
-    this.loadStudent();  // Load the existing student data
-    console.log('ID del estudiante:', this.studentId);
+    this.routeSub = this.route.params.subscribe(params => {
+      console.log('ID del estudiante:', this.studentId);
+      this.getCursos();
+      this.loadStudent();
+    });
   }
 
+  ngOnDestroy() {
+    this.routeSub.unsubscribe();
+  }
   
-
   loadStudent() {
+    const token = localStorage.getItem('authToken'); 
+    const headers = { 'Authorization': 'Bearer ' + token };
     const url = `${this.apiUrl}/estudiantes/${this.studentId}`;
-    this.http.get<ApiResponse>(url)
+    
+    this.http.get<ApiResponse>(url, { headers })
       .subscribe(
         response => {
           this.studentForm.patchValue({
@@ -86,9 +89,18 @@ export class StudentEditComponent implements OnInit {
             email: response.data.email
           }); // Patch the form with the student data
           console.log('Estudiante cargado:', response.data);
+  
+          // Mark the assigned courses
+          this.markAssignedCourses(response.data.cursos);
         },
         error => {
           console.error('Error al cargar estudiante:', error);
+          // Si el servidor devuelve un error 401 Unauthorized, redirige al usuario a la página de inicio de sesión
+          if (error.status === 401) {
+            alert('Su sesión ha expirado. Por favor, inicie sesión de nuevo.');
+            localStorage.removeItem('authToken');
+            location.reload();
+          }
         }
       );
   }
@@ -99,15 +111,21 @@ export class StudentEditComponent implements OnInit {
       const token = localStorage.getItem('authToken'); 
       const headers = { 'Authorization': 'Bearer ' + token };
       const url = `${this.apiUrl}/estudiantes/${this.studentId}`;
-
-      this.http.put<StudentResponse>(url, formData, { headers })  // Usa PUT para actualizar el estudiante
+  
+      this.http.put<Student>(url, formData, { headers })  // Usa PUT para actualizar el estudiante
         .subscribe(
           response => {
             alert('Estudiante actualizado exitosamente');
+            // Ahora se cierra el modal
+            // Asigna los cursos al estudiante
+            const studentId = this.studentId;  // This is the correct field for the student's id
+            const courses = formData.curso;
+            this.assignCoursesToStudent(studentId, courses);
+            // Se actualiza el listado de estudiantes en el componente padre
             this.studentUpdated.emit();  // Emite el evento
             $('#fromEditStudent').modal('hide');  // Cierra el modal
             this.resetFormAndCourses();  // Resetea el formulario y los cursos
-            this.getCursos();  // Obtiene los cursos cuando se inicializa el componente
+            this.getCursos();  // Obtiene los cursos cuando se inicializa el componente  
           },
           error => {
             alert('Error al actualizar estudiante');
@@ -185,6 +203,14 @@ export class StudentEditComponent implements OnInit {
     const cursoArray = this.studentForm.get('curso') as FormArray;
     this.cursos.forEach(() => {
       cursoArray.push(new FormControl(false));  // Inicialmente todos desmarcados
+    });
+  }
+  markAssignedCourses(assignedCourses: Course[]) {
+    const courseIds = assignedCourses.map(course => course.id);
+    this.cursoArray.controls.forEach((control, index) => {
+      if (courseIds.includes(this.cursos[index].id)) {
+        control.setValue(true);
+      }
     });
   }
 }

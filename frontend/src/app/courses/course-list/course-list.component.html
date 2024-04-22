@@ -1,1 +1,68 @@
-<p>course-list works!</p>
+<div class="text-center">
+    <h1>Cursos</h1>
+</div>
+
+<div class="justify-content-end m-3 px-5 w-100 d-flex">
+    <!-- Botón para abrir el modal -->
+    <button type="button" class="btn btn-sm btn-primary" (click)="createCourse()">Agregar curso</button>
+</div>
+
+<table class="table table-responsive text-center">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Horario</th>
+            <th>Tipo</th>
+            <th>Fecha de inicio</th>
+            <th>Fecha de fin</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let course of courses">
+            <td>{{ course.nombre }}</td>
+            <td>{{ course.horario }}</td>
+            <td>{{ course.tipo }}</td>
+            <td>{{ course.fecha_inicio }}</td>
+            <td>{{ course.fecha_fin }}</td>
+            <td>
+                <button class="btn btn-sm btn-warning m-1" (click)="editCourse(course.id)">Editar</button>
+                <button class="btn btn-sm btn-danger m-1" (click)="deleteCourse(course.id)">Eliminar</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- Modal Create -->
+<div class="modal fade" id="fromCreateCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fromCreateCourseLabel">Agregar curso</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-course-create (courseCreated)="loadCourses()"></app-course-create>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Edit -->
+<div class="modal fade" id="fromEditCourse" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fromEditCourseLabel">Editar curso</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <app-course-edit *ngIf="showEditCourse" [courseId]="selectedCourseId" (courseUpdated)="loadCourses()"></app-course-edit>  
+            </div>
+        </div>
+    </div>
+</div>

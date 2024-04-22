@@ -11,6 +11,7 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CourseListComponent } from './courses/course-list/course-list.component';
 import { CourseEditComponent } from './courses/course-edit/course-edit.component';
+import { CourseCreateComponent } from './courses/course-create/course-create.component';
 import { StudentListComponent } from './students/student-list/student-list.component';
 import { StudentEditComponent } from './students/student-edit/student-edit.component';
 import { AdminComponent } from './admin/admin.component';
@@ -30,7 +31,10 @@ import { LogoutComponent } from './logout/logout.component';
     StudentListComponent,
     StudentEditComponent,
     LoginComponent,
-    LogoutComponent,            
+    LogoutComponent,
+    CourseCreateComponent,
+    CourseListComponent,
+    // Import CourseEditComponent instead of declaring it
   ], 
   imports: [
     BrowserModule,

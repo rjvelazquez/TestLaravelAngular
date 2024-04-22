@@ -81,9 +81,17 @@ export class StudentListComponent implements OnInit {
   }
   
 
+  showEditStudent: boolean = false;
+
   editStudent(id: number) {
     this.selectedStudentId = id;
-    $('#fromEditStudent').modal('show');   
+    this.showEditStudent = false;
+  
+    setTimeout(() => {
+      this.showEditStudent = true;
+      $('#fromEditStudent').modal('show');   
+    });
+  
     console.log('Editar estudiante:', id); 
   }
   
