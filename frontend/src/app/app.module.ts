@@ -10,7 +10,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CourseListComponent } from './courses/course-list/course-list.component';
-import { CourseEditComponent } from './courses/course-edit/course-edit.component';
 import { CourseCreateComponent } from './courses/course-create/course-create.component';
 import { StudentListComponent } from './students/student-list/student-list.component';
 import { StudentEditComponent } from './students/student-edit/student-edit.component';
@@ -20,6 +19,7 @@ import { CoursesComponent } from './courses/courses.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StudentCreateComponent } from './students/student-create/student-create.component';
 import { LogoutComponent } from './logout/logout.component';
+import { CourseEditComponent } from './courses/course-edit/course-edit.component';
 
 @NgModule({
   declarations: [
@@ -35,12 +35,15 @@ import { LogoutComponent } from './logout/logout.component';
     CourseCreateComponent,
     CourseListComponent,
     // Import CourseEditComponent instead of declaring it
+    CourseEditComponent,
+
   ], 
   imports: [
     BrowserModule,
     AppRoutingModule,          // Import routing module
     ReactiveFormsModule,        // Import reactive forms module
     HttpClientModule,          // Import HTTP client module
+
   ],
   providers: [
     HttpClient,

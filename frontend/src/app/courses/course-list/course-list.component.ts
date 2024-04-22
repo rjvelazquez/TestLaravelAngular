@@ -33,8 +33,9 @@ export class CourseListComponent implements OnInit {
     this.http.get(url, { headers })
       .subscribe(
         (response: any) => {
-          if (response.data && Array.isArray(response.data)) {
-            this.courses = response.data;
+          console.log('Respuesta:', response);
+          if (response && Array.isArray(response)) {
+            this.courses = response;
             console.log('Cursos cargados:', this.courses);
           } else {
             console.error('Error: la respuesta no contiene un array de cursos');

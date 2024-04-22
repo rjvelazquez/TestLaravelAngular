@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../env';
 import { Router } from '@angular/router';
+
+declare var $: any;  // Declara la variable jQuery
+
 
 @Component({
   selector: 'app-course-create',
@@ -10,6 +13,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./course-create.component.css']
 })
 export class CourseCreateComponent implements OnInit {
+  @Output() courseCreated = new EventEmitter<void>();
+
   courseForm: FormGroup;
 
   constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {
@@ -36,7 +41,14 @@ export class CourseCreateComponent implements OnInit {
           response => {
             alert('Curso creado exitosamente');
             this.courseForm.reset();
-            this.router.navigate(['/cursos']);
+            this.courseCreated.emit();  // Emite el evento  
+
+            $('#fromCreateCourse').modal('hide');
+            // resetea el formulario
+            this.courseForm.reset();
+            
+
+
           },
           error => {
             alert('Error al crear curso');
