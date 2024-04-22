@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HttpClient, HttpBackend, HttpXhrBackend, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
+import { CommonModule } from '@angular/common';
+
 
 
 // Import components
@@ -43,6 +45,7 @@ import { CourseEditComponent } from './courses/course-edit/course-edit.component
     AppRoutingModule,          // Import routing module
     ReactiveFormsModule,        // Import reactive forms module
     HttpClientModule,          // Import HTTP client module
+    CommonModule,
 
   ],
   providers: [

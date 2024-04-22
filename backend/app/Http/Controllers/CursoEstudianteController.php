@@ -63,5 +63,27 @@ class CursoEstudianteController extends Controller
         }
     }
 
+    // Consultar todos los rehistros
+    public function all()
+    {
+        try {
+            // Get all the courses with their students
+            $cursos = Curso::with('estudiantes')->get();
+    
+            // Map each course to an array containing the course name and the number of students
+            $cursos = $cursos->map(function ($curso) {
+                return [
+                    'nombre' => $curso->nombre,
+                    'numero_de_estudiantes' => $curso->estudiantes->count(),
+                ];
+            });
+    
+            // Return a response
+            return response()->json(['cursos' => $cursos], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al obtener los registros', 'message' => $e->getMessage()], 500);
+        }
+    }
+
     
 }

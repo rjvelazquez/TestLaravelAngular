@@ -39,6 +39,8 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/cursos/{curso}/estudiantes/{estudiante}', [CursoEstudianteController::class, 'store']); // Agregar estudiante a curso
     Route::delete('/cursos/{curso}/estudiantes/{estudiante}', [CursoEstudianteController::class, 'destroy']); // Eliminar estudiante de curso
+    Route::get('/cursos/{curso}/estudiantes', [CursoEstudianteController::class, 'index']); // Listar estudiantes de un curso
+    Route::get('/cursoEstudiantes', [CursoEstudianteController::class, 'all']); // Listar estudiantes de un curso
 
 
 });  

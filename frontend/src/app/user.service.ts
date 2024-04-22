@@ -60,6 +60,48 @@ export class UserService {
         map(response => response.user.name)
       );
   }
+  getTotalCourses(): Observable<number> {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+  
+    const headers = { 'Authorization': 'Bearer ' + token };
+    return this.http.get<any[]>(`${this.apiUrl}/cursos`, { headers })
+      .pipe(
+        map(response => response.length)
+      );
+  }
+  
+  getTotalStudents(): Observable<number> {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+  
+    const headers = { 'Authorization': 'Bearer ' + token };
+    return this.http.get<{ data: any[] }>(`${this.apiUrl}/estudiantes`, { headers })
+    .pipe(
+      map(response => response.data.length)
+    );
+  }
+
+  getTopCourses(): Observable<{ name: string, studentCount: number }[]> {
+    const token = localStorage.getItem('authToken');
+    if (!token) {
+      throw new Error('Token not found');
+    }
+  
+    const headers = { 'Authorization': 'Bearer ' + token };
+    return this.http.get<{ cursos: { nombre: string, numero_de_estudiantes: number }[] }>(`${this.apiUrl}/cursoEstudiantes`, { headers })
+      .pipe(
+        map(response => response.cursos.map(curso => ({
+          name: curso.nombre,
+          studentCount: curso.numero_de_estudiantes
+        })))
+      );
+  }
+
   getTokenExpirationDate(token: string): Date | null {
     const decoded: any = jwtDecode(token);
     
