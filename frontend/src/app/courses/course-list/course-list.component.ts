@@ -33,10 +33,9 @@ export class CourseListComponent implements OnInit {
     this.http.get(url, { headers })
       .subscribe(
         (response: any) => {
-          console.log('Respuesta:', response);
           if (response && Array.isArray(response)) {
             this.courses = response;
-            console.log('Cursos cargados:', this.courses);
+            console.log('Cursos cargados exitosamente:');
           } else {
             console.error('Error: la respuesta no contiene un array de cursos');
           }
@@ -69,7 +68,6 @@ export class CourseListComponent implements OnInit {
       $('#fromEditCourse').modal('show');   
     });
   
-    console.log('Editar curso:', id); 
   }
   
   deleteCourse(id: number) {
@@ -81,7 +79,7 @@ export class CourseListComponent implements OnInit {
       .subscribe(
         (response: any) => {
           alert('Curso eliminado correctamente');
-          console.log('Curso eliminado:', response);
+          console.log('Curso eliminado');
           this.loadCourses();
         },
         error => {

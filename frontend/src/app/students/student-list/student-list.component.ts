@@ -35,7 +35,7 @@ export class StudentListComponent implements OnInit {
         (response: any) => {
           if (response.data && Array.isArray(response.data)) {
             this.students = response.data;
-            console.log('Estudiantes cargados:', this.students);
+            console.log('Estudiantes cargados');
   
             // Cargar los cursos para cada estudiante
             for (let student of this.students) {
@@ -65,7 +65,7 @@ export class StudentListComponent implements OnInit {
     (response: any) => {
       if (response.data && Array.isArray(response.data.cursos)) {
         student.courses = response.data.cursos;
-        console.log(`Cursos cargados para el estudiante ${student.id}:`, student.courses);
+        //console.log(`Cursos cargados para el estudiante ${student.id}:`, student.courses);
       } else {
         console.error(`Error: la respuesta para el estudiante ${student.id} no contiene un array de cursos`);
       }

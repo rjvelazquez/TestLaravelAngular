@@ -61,9 +61,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
 
   
   ngOnInit() {
-    console.log('ID del estudiante:', this.studentId);
     this.routeSub = this.route.params.subscribe(params => {
-      console.log('ID del estudiante:', this.studentId);
       this.getCursos();
       this.loadStudent();
     });
@@ -178,7 +176,7 @@ export class StudentEditComponent implements OnInit, OnDestroy {
       this.http.post(url, {}, { headers })
         .subscribe(
           response => {
-            console.log(`Curso ${courseId} asignado exitosamente al estudiante ${studentId}:`, response);
+            //console.log(`Curso ${courseId} asignado exitosamente al estudiante ${studentId}:`, response);
           },
           error => {
             console.error(`Error al asignar el curso ${courseId} al estudiante ${studentId}:`, error);

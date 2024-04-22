@@ -40,7 +40,6 @@ export class DashboardComponent implements OnInit {
 
     this.userService.getTopCourses().subscribe(topCourses => {
       this.topCourses = topCourses;
-      console.log('Top courses:', topCourses);
     }, error => {
       console.error('Error fetching top courses:', error);
     });

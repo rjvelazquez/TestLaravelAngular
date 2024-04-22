@@ -143,7 +143,7 @@ export class StudentCreateComponent implements OnInit {
       this.http.post(url, {}, { headers })
         .subscribe(
           response => {
-            console.log(`Curso ${courseId} asignado exitosamente al estudiante ${studentId}:`, response);
+            //console.log(`Curso ${courseId} asignado exitosamente al estudiante ${studentId}:`, response);
           },
           error => {
             console.error(`Error al asignar el curso ${courseId} al estudiante ${studentId}:`, error);

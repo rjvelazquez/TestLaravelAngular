@@ -31,9 +31,6 @@ export class LoginComponent implements OnInit {
       
       if (loginData.email && loginData.password) {
         
-        console.log('Iniciando sesión...');
-        console.log('Datos de inicio de sesión enviados:');
-        console.log(loginData);
         this.userService.login(loginData.email, loginData.password)  // Use UserService to login
           .subscribe(
             response => {
@@ -41,7 +38,7 @@ export class LoginComponent implements OnInit {
               alert('Inicio de sesión exitoso');
               // Redireccionar al dashboard
               this.router.navigate(['/dashboard']);
-               console.log('Inicio de sesión exitoso:', response);
+               console.log('Inicio de sesión exitoso');
             },
             error => {
               // Manejar errores de autenticación
