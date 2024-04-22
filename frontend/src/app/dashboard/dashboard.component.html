@@ -3,8 +3,8 @@
 </div>
 
 <div class="container">
-    <div class="row">
-      <div class="col-md-4">
+    <div class="row mt-5">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Total Courses</h5>
@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-6">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Total Students</h5>
@@ -20,12 +20,12 @@
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+      <div class="col-md-12 mt-3">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Cursos con mas estudiantes</h5>
             <ul>
-                <div *ngFor="let course of topCourses">{{ course.name }}: {{ course.studentCount }}</div>
+                <li *ngFor="let course of topCourses">{{ course.name }}: {{ course.studentCount }}</li>
               </ul>
           </div>
         </div>

@@ -38,6 +38,7 @@ import { CourseEditComponent } from './courses/course-edit/course-edit.component
     CourseListComponent,
     // Import CourseEditComponent instead of declaring it
     CourseEditComponent,
+    DashboardComponent,
 
   ], 
   imports: [
